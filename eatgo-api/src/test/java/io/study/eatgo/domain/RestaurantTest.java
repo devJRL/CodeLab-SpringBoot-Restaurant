@@ -7,13 +7,19 @@ import static org.junit.Assert.*;
 
 public class RestaurantTest {
 
-  @Test
-  public void creation() {
-    String testName = "BabZip";
-    String testAddress = "Seoul";
-    Restaurant restaurant = new Restaurant(testName, testAddress);
+  String testName = "BabZip";
+  String testAddress = "Seoul";
 
-    assertThat( restaurant.getName(), is(testName) );
-    assertThat( restaurant.getAddress(), is(testAddress) );
+  Restaurant restaurant = new Restaurant( testName, testAddress );
+
+  @Test
+  public void createInstance() {
+    assertThat( restaurant.getName(), is( testName ) );
+    assertThat( restaurant.getAddress(), is( testAddress ) );
+  }
+
+  @Test
+  public void getInformation() {
+    assertThat(restaurant.getInformation(), is(testName + " in " + testAddress));
   }
 }
