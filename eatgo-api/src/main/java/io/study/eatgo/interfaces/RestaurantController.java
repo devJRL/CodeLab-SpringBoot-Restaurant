@@ -13,7 +13,8 @@ import java.util.List;
 @RestController
 public class RestaurantController {
 
-  private RestaurantRepository restaurantRepository = new RestaurantRepository();
+  @Autowired
+  private RestaurantRepository restaurantRepository;
 
   @GetMapping("/restaurants")
   public List<Restaurant> getList() {
