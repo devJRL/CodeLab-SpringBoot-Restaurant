@@ -7,10 +7,10 @@ import static org.junit.Assert.*;
 
 public class RestaurantTest {
 
+  // Dummy Data for Test
   Long testId = 1004L;
   String testName = "BabZip";
   String testAddress = "Seoul";
-
   Restaurant restaurant = new Restaurant( testId, testName, testAddress );
 
   @Test

@@ -2,14 +2,14 @@ package io.study.eatgo.domain;
 
 public class MenuItem {
 
-  private final String menu;
+  private final String menuName;
 
-  public MenuItem( String menu ) {
-    this.menu = menu;
+  public MenuItem( String menuName ) {
+    this.menuName = menuName;
   }
 
-  public String getMenu() {
-    return menu;
+  public String getMenuName() {
+    return menuName;
   }
 
 }
