@@ -1,5 +1,7 @@
 package io.study.eatgo.interfaces;
 
+import io.study.eatgo.domain.MenuItemRepository;
+import io.study.eatgo.domain.MenuItemRepositoryImp;
 import io.study.eatgo.domain.RestaurantRepository;
 import io.study.eatgo.domain.RestaurantRepositoryImpl;
 import org.junit.Test;
@@ -25,6 +27,9 @@ public class RestaurantControllerTest {
   @SpyBean( RestaurantRepositoryImpl.class )
   private RestaurantRepository restaurantRepository;
 
+  @SpyBean( MenuItemRepositoryImp.class )
+  private MenuItemRepository menuItemRepository;
+
   @Test
   public void getList() throws Exception {
     mvc.perform( get( "/restaurants") )
@@ -38,7 +43,8 @@ public class RestaurantControllerTest {
     mvc.perform( get( "/restaurants/1004" ) )
       .andExpect( status().isOk() )
       .andExpect( content().string( containsString( "\"id\":1004" ) ) )
-      .andExpect( content().string( containsString( "\"name\":\"BabZip\"" ) ) );
+      .andExpect( content().string( containsString( "\"name\":\"BabZip\"" ) ) )
+      .andExpect( content().string( containsString( "Kimchi" ) ) );
 
   }
 

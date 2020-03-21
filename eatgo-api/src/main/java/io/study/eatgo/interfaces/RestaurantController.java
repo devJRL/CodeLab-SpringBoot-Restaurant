@@ -1,6 +1,7 @@
-
 package io.study.eatgo.interfaces;
 
+import io.study.eatgo.domain.MenuItem;
+import io.study.eatgo.domain.MenuItemRepository;
 import io.study.eatgo.domain.Restaurant;
 import io.study.eatgo.domain.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,8 @@ import java.util.List;
 @RestController
 public class RestaurantController {
 
-  @Autowired
-  private RestaurantRepository restaurantRepository;
+  @Autowired private RestaurantRepository restaurantRepository;
+  @Autowired private MenuItemRepository menuItemRepository;
 
   @GetMapping("/restaurants")
   public List<Restaurant> getList() {
@@ -26,6 +27,8 @@ public class RestaurantController {
   @GetMapping("/restaurants/{id}")
   public Restaurant detail( @PathVariable("id") Long id  ) {
     Restaurant restaurant = restaurantRepository.findById( id );
+    List<MenuItem> menuItemList = menuItemRepository.findAllByRestaurantId( id );
+    restaurant.setMenuItem( menuItemList );
 
     return restaurant;
   }
