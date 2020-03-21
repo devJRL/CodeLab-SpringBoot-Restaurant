@@ -1,7 +1,7 @@
 package io.study.eatgo.interfaces;
 
-import io.study.eatgo.domain.Restaurant;
 import io.study.eatgo.domain.RestaurantRepository;
+import io.study.eatgo.domain.RestaurantRepositoryImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class RestaurantControllerTest {
   @Autowired
   private MockMvc mvc;
 
-  @SpyBean // DI @Component
+  @SpyBean( RestaurantRepositoryImpl.class )
   private RestaurantRepository restaurantRepository;
 
   @Test
