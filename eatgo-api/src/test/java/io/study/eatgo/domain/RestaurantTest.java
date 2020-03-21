@@ -15,9 +15,9 @@ public class RestaurantTest {
 
   @Test
   public void createInstance() {
-    assertThat( restaurant.getId(), is( testId ) );
-    assertThat( restaurant.getName(), is( testName ) );
-    assertThat( restaurant.getAddress(), is( testAddress ) );
+    assertThat( restaurant.getRestaurantId(), is( testId ) );
+    assertThat( restaurant.getRestaurantName(), is( testName ) );
+    assertThat( restaurant.getRestaurantAddress(), is( testAddress ) );
   }
 
   @Test

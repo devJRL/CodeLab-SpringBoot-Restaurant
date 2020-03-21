@@ -30,13 +30,13 @@ public class RestaurantServiceTest {
   public void getRestaurantList() {
     List<Restaurant> restaurantList = restaurantService.getRestaurantList();
     Restaurant restaurant = restaurantList.get(0);
-    assertThat( restaurant.getId(), is(1004L) );
+    assertThat( restaurant.getRestaurantId(), is(1004L) );
   }
 
   @Test
   public void getRestaurantById() {
     Restaurant restaurant = restaurantService.getRestaurantById(1004L);
-    assertThat( restaurant.getId(), is( 1004L) );
+    assertThat( restaurant.getRestaurantId(), is( 1004L) );
 
     MenuItem menuItem = restaurant.getMenuItemList().get( 0 );
     assertThat( menuItem.getMenuName(), is( "Kimchi" ) );

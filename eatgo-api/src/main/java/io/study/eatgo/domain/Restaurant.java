@@ -5,31 +5,31 @@ import java.util.List;
 
 public class Restaurant {
 
-  private final Long id;
-  private final String name;
-  private final String address;
+  private final Long restaurantId;
+  private final String restaurantName;
+  private final String restaurantAddress;
   private List<MenuItem> menuItemList = new ArrayList<>();
 
-  public Restaurant( Long id, String name, String address ) {
-    this.id = id;
-    this.name = name;
-    this.address = address;
+  public Restaurant( Long restaurantId, String restaurantName, String restaurantAddress ) {
+    this.restaurantId = restaurantId;
+    this.restaurantName = restaurantName;
+    this.restaurantAddress = restaurantAddress;
   }
 
-  public Long getId() {
-    return id;
+  public Long getRestaurantId() {
+    return restaurantId;
   }
 
-  public String getName() {
-    return name;
+  public String getRestaurantName() {
+    return restaurantName;
   }
 
-  public String getAddress() {
-    return address;
+  public String getRestaurantAddress() {
+    return restaurantAddress;
   }
 
   public String getInformation() {
-    return "[" + id +"] " + name + " in " + address;
+    return "[" + restaurantId +"] " + restaurantName + " in " + restaurantAddress;
   }
 
   public void setMenuItem( List<MenuItem> menuItemList ) {
