@@ -24,13 +24,7 @@ public class RestaurantController {
 
   @GetMapping("/restaurants/{id}")
   public Restaurant detail( @PathVariable("id") Long id  ) {
-    List<Restaurant> restaurantList = restaurantRepository.findAll();
-
-    Restaurant restaurant =
-      restaurantList.stream()
-        .filter( r -> r.getId().equals( id ) )
-        .findFirst()
-        .orElse( null );
+    Restaurant restaurant = restaurantRepository.findById( id );
 
     return restaurant;
   }
