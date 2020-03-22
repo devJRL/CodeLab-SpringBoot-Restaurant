@@ -16,10 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.StringContains.containsString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith( SpringRunner.class )
 @WebMvcTest( RestaurantController.class )
@@ -83,6 +85,17 @@ public class RestaurantControllerTest {
       .andExpect( content().string( containsString( "\"restaurantId\":" + testRestaurantId ) ) )
       .andExpect( content().string( containsString( "\"restaurantName\":\"" + testRestaurantName + "\"" ) ) )
       .andExpect( content().string( containsString( "{\"menuName\":\"" + testMenuName  + "\"}" ) ) );
+  }
+
+  @Test
+  public void postCreate() throws Exception {
+    // Check Create
+    mvc.perform( post("/restaurants") )
+      .andExpect( status().isCreated() ) // ResponseEntity.created( URI ) -> 201
+      .andExpect( header().string( "location", "/restaurants/1234" ) )
+      .andExpect( content().string( "{}" ) );
+
+    verify( restaurantService ).addRestaurant( any() ); // TRUE by inputting Any other object
   }
 
 }
