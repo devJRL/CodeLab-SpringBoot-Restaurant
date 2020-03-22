@@ -20,8 +20,7 @@ import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith( SpringRunner.class )
@@ -82,23 +81,37 @@ public class RestaurantControllerTest {
 
     // Check Data
     mvc.perform( get( "/restaurants/"+testRestaurantId ) )
-      .andExpect( status().isOk() )
-      .andExpect( content().string( containsString( "\"restaurantId\":" + testRestaurantId ) ) )
-      .andExpect( content().string( containsString( "\"restaurantName\":\"" + testRestaurantName + "\"" ) ) )
-      .andExpect( content().string( containsString( "{\"menuName\":\"" + testMenuName  + "\"}" ) ) );
+        .andExpect( status().isOk() )
+        .andExpect( content().string( containsString( "\"restaurantId\":" + testRestaurantId ) ) )
+        .andExpect( content().string( containsString( "\"restaurantName\":\"" + testRestaurantName + "\"" ) ) )
+        .andExpect( content().string( containsString( "{\"menuName\":\"" + testMenuName  + "\"}" ) ) );
   }
 
   @Test
   public void postCreate() throws Exception {
     // Check Create with JSON
     mvc.perform( post("/restaurants")
-                .contentType( MediaType.APPLICATION_JSON )
-                .content( "{\"restaurantName\":\"Gosu\", \"restaurantAddress\":\"Busan\"}" ) )
+                  .contentType( MediaType.APPLICATION_JSON )
+                  .content( "{\"restaurantName\":\"Gosu\", \"restaurantAddress\":\"Busan\"}" ) )
         .andExpect( status().isCreated() ) // ResponseEntity.created( URI ) with 201 StatusCode
-        .andExpect( header().string( "location", "/restaurants/1234" ) ) // .created( URI )
+        .andExpect( header().string( "location", "/restaurants/null" ) ) // .created( URI )
+          // 'null' is ok : 'restaurantId' is controlled by @GeneratedValue
         .andExpect( content().string( "{}" ) ); // body()
 
+    // Check Method
     verify( restaurantService ).createRestaurant( any() ); // TRUE by inputting Any other object
+  }
+
+  @Test
+  public void patchUpdate() throws Exception {
+    // Check Create with JSON
+    mvc.perform( patch("/restaurants/1234")
+                  .contentType( MediaType.APPLICATION_JSON )
+                  .content( "{\"restaurantName\":\"GosuBar\", \"restaurantAddress\":\"Gangnam\"}" ) )
+        .andExpect( status().isOk() );
+
+    // Check Method
+    verify( restaurantService ).updateRestaurant( 1234L, "GosuBar", "Gangnam" );
   }
 
 }

@@ -38,4 +38,12 @@ public class RestaurantService {
   public Restaurant createRestaurant( Restaurant restaurant ) {
     return restaurantRepository.save( restaurant );
   }
+
+  public Restaurant updateRestaurant( long restaurantId, String restaurantName, String restaurantAddress ) {
+    Restaurant restaurant = restaurantRepository.findById( restaurantId ).orElse( null );
+    restaurant.updateInformation( restaurantName, restaurantAddress );
+    restaurantRepository.save( restaurant );
+    return restaurant;
+  }
+
 }
