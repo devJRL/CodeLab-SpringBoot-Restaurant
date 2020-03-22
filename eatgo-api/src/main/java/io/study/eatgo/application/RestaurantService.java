@@ -29,7 +29,8 @@ public class RestaurantService {
   }
 
   public  Restaurant getRestaurantById ( Long restaurantId ) {
-    Restaurant restaurant = restaurantRepository.findById( restaurantId );
+    // TODO : NullPointerException
+    Restaurant restaurant = restaurantRepository.findById( restaurantId ).orElse( null );
     restaurant.setMenuItem( menuItemRepository.findAllByRestaurantId( restaurantId ) );
     return restaurant;
   }

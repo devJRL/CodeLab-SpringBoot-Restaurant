@@ -1,13 +1,23 @@
 package io.study.eatgo.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Restaurant {
 
+  @Id
+  @GeneratedValue
   private Long restaurantId;
+
   private String restaurantName;
   private String restaurantAddress;
+
+  @Transient // TODO : Remove
   private List<MenuItem> menuItemList = new ArrayList<>();
 
   public Restaurant() {
