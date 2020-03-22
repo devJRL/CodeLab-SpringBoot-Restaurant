@@ -98,7 +98,7 @@ public class RestaurantControllerTest {
         .andExpect( header().string( "location", "/restaurants/1234" ) ) // .created( URI )
         .andExpect( content().string( "{}" ) ); // body()
 
-    verify( restaurantService ).addRestaurant( any() ); // TRUE by inputting Any other object
+    verify( restaurantService ).createRestaurant( any() ); // TRUE by inputting Any other object
   }
 
 }

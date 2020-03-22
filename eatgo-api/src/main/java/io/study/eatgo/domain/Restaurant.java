@@ -14,6 +14,11 @@ public class Restaurant {
     // Definition For @RequestBody
   }
 
+  public Restaurant( String restaurantName, String restaurantAddress ) {
+    this.restaurantName = restaurantName;
+    this.restaurantAddress = restaurantAddress;
+  }
+
   public Restaurant( Long restaurantId, String restaurantName, String restaurantAddress ) {
     this.restaurantId = restaurantId;
     this.restaurantName = restaurantName;
@@ -22,6 +27,10 @@ public class Restaurant {
 
   public Long getRestaurantId() {
     return restaurantId;
+  }
+
+  public void setId( long restaurantId ) {
+    this.restaurantId = restaurantId;
   }
 
   public String getRestaurantName() {
@@ -48,5 +57,4 @@ public class Restaurant {
   public List<MenuItem> getMenuItemList() {
     return menuItemList;
   }
-
 }

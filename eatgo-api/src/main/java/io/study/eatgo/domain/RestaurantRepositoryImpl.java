@@ -30,4 +30,15 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
             .orElse( null );
   }
 
+  @Override
+  public Restaurant save( Restaurant restaurant ) {
+    // Dummy Data for Test
+    restaurant.setId( 1234L );
+
+    // Save
+    restaurantList.add(restaurant);
+
+    return restaurant;
+  }
+
 }
