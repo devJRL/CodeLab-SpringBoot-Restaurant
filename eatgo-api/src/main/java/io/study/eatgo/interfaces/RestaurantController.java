@@ -4,10 +4,7 @@ import io.study.eatgo.application.RestaurantService;
 import io.study.eatgo.domain.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -32,11 +29,14 @@ public class RestaurantController {
   }
 
   @PostMapping("/restaurants")
-  public ResponseEntity<?> postCreate() throws URISyntaxException {
-    Restaurant restaurant = new Restaurant( 1234L, "Gosu", "Busan" );
+  public ResponseEntity<?> postCreate( @RequestBody Restaurant resource )
+          throws URISyntaxException {
+    Restaurant restaurant = new Restaurant( 1234L,
+                                            resource.getRestaurantName(),
+                                            resource.getRestaurantAddress() );
     restaurantService.addRestaurant( restaurant );
 
-    URI location = new URI( "/restaurants/1234" );
+    URI location = new URI( "/restaurants/" + restaurant.getRestaurantId() );
     return ResponseEntity.created( location ).body( "{}" );
   }
 }

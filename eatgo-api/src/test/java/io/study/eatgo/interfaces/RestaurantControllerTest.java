@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -89,11 +90,13 @@ public class RestaurantControllerTest {
 
   @Test
   public void postCreate() throws Exception {
-    // Check Create
-    mvc.perform( post("/restaurants") )
-      .andExpect( status().isCreated() ) // ResponseEntity.created( URI ) -> 201
-      .andExpect( header().string( "location", "/restaurants/1234" ) )
-      .andExpect( content().string( "{}" ) );
+    // Check Create with JSON
+    mvc.perform( post("/restaurants")
+                .contentType( MediaType.APPLICATION_JSON )
+                .content( "{\"restaurantName\":\"Gosu\", \"restaurantAddress\":\"Busan\"}" ) )
+        .andExpect( status().isCreated() ) // ResponseEntity.created( URI ) with 201 StatusCode
+        .andExpect( header().string( "location", "/restaurants/1234" ) ) // .created( URI )
+        .andExpect( content().string( "{}" ) ); // body()
 
     verify( restaurantService ).addRestaurant( any() ); // TRUE by inputting Any other object
   }

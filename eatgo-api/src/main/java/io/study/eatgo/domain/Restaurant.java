@@ -5,10 +5,14 @@ import java.util.List;
 
 public class Restaurant {
 
-  private final Long restaurantId;
-  private final String restaurantName;
-  private final String restaurantAddress;
+  private Long restaurantId;
+  private String restaurantName;
+  private String restaurantAddress;
   private List<MenuItem> menuItemList = new ArrayList<>();
+
+  public Restaurant() {
+    // Definition For @RequestBody
+  }
 
   public Restaurant( Long restaurantId, String restaurantName, String restaurantAddress ) {
     this.restaurantId = restaurantId;
