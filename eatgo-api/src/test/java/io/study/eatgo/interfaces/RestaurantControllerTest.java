@@ -25,10 +25,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest( RestaurantController.class )
 public class RestaurantControllerTest {
 
+  // MockMvc object : Test DI ( by Spring Framework )
   @Autowired
   private MockMvc mvc;
 
-  // Mock object : Application
+  // Mock object : Application ( on Spring Framework )
   @MockBean
   private RestaurantService restaurantService;
 
@@ -73,7 +74,7 @@ public class RestaurantControllerTest {
 
   @Test
   public void getDetail() throws Exception {
-    // Mock object
+    // From Mock object
     given( restaurantService.getRestaurantById( testRestaurantId ) ).willReturn( restaurant );
 
     // Check Data

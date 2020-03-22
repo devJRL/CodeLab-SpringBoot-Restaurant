@@ -24,7 +24,7 @@ public class RestaurantService {
   }
 
   public List<Restaurant> getRestaurantList() {
-    List<Restaurant> restaurantList= restaurantRepository.findAll();
+    List<Restaurant> restaurantList = restaurantRepository.findAll();
     return restaurantList;
   }
 
