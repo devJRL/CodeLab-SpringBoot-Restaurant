@@ -44,7 +44,13 @@ public class RestaurantServiceTest {
   private void mockRestaurantRepository() {
     // Dummy Data : Domain - Restaurant
     List<Restaurant> restaurantList = new ArrayList<>();
-    Restaurant restaurant = new Restaurant( 1004L, "BabZip", "Seoul" );
+    // Builder Pattern: @Builder of Lombok
+    Restaurant restaurant = Restaurant.builder()
+      .restaurantId( 1004L )
+      .restaurantName( "BabZip" )
+      .restaurantAddress( "Seoul" )
+      .menuItemList( new ArrayList<>( ) )
+      .build();
     restaurantList.add( restaurant );
     // From Mock object
     given( restaurantRepository.findAll() ).willReturn( restaurantList );
@@ -79,8 +85,19 @@ public class RestaurantServiceTest {
   @Test
   public void createRestaurant() {
     // Save
-    Restaurant savedRestaurant = new Restaurant( 1234L, "Gosu", "Busan" );
+    // Check Way 1
+    Restaurant savedRestaurant = Restaurant.builder()
+      .restaurantId( 1234L )
+      .restaurantName( "Gosu" )
+      .restaurantAddress( "Busan" )
+      .build();
     given( restaurantRepository.save( any()) ).willReturn( savedRestaurant );
+    // Check Way 2
+    given( restaurantRepository.save( any()) ).will( invocation -> {
+      Restaurant restaurant = invocation.getArgument(0);
+      restaurant.setRestaurantId( 1234L );
+      return restaurant;
+    } );
 
     // Create
     Restaurant createdRestaurant = restaurantService.createRestaurant( savedRestaurant );
@@ -90,7 +107,11 @@ public class RestaurantServiceTest {
   @Test
   public void updateRestaurant() {
     // Before
-    Restaurant targetRestaurant = new Restaurant( 1004L, "BabZip", "Seoul" );
+    Restaurant targetRestaurant = Restaurant.builder()
+      .restaurantId( 1234L )
+      .restaurantName( "Gosu" )
+      .restaurantAddress( "Busan" )
+      .build();
     given( restaurantRepository.findById( 1004L ) ).willReturn( Optional.of( targetRestaurant ) );
 
     // Update

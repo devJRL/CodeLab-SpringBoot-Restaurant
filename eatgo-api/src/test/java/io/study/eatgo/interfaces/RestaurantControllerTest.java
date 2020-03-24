@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.core.StringContains.containsString;
@@ -57,8 +58,12 @@ public class RestaurantControllerTest {
 
     // Dummy Restaurant
     restaurantList = new ArrayList<>();
-    restaurant = new Restaurant( testRestaurantId, testRestaurantName, testRestaurantAddress );
-    restaurant.setMenuItem( menuItemList );
+    restaurant = Restaurant.builder()
+      .restaurantId( testRestaurantId )
+      .restaurantName( testRestaurantName )
+      .restaurantAddress( testRestaurantAddress )
+      .build();
+    restaurant.setMenuItem( Arrays.asList( menuItem ) );
     restaurantList.add( restaurant );
   }
 

@@ -11,7 +11,12 @@ public class RestaurantTest {
   Long testId = 1004L;
   String testName = "BabZip";
   String testAddress = "Seoul";
-  Restaurant restaurant = new Restaurant( testId, testName, testAddress );
+  // Builder Pattern
+  Restaurant restaurant = Restaurant.builder()
+    .restaurantId(testId)
+    .restaurantName(testName)
+    .restaurantAddress(testAddress)
+    .build();
 
   @Test
   public void createInstance() {
