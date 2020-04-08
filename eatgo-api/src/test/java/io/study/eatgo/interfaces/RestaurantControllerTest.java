@@ -93,7 +93,7 @@ public class RestaurantControllerTest {
   }
 
   @Test
-  public void postCreate() throws Exception {
+  public void postCreateWithValidData() throws Exception {
     // Check Create with JSON
     mvc.perform( post("/restaurants")
                   .contentType( MediaType.APPLICATION_JSON )
@@ -108,15 +108,34 @@ public class RestaurantControllerTest {
   }
 
   @Test
-  public void patchUpdate() throws Exception {
+  public void postCreateWithInvalidData() throws Exception {
+    // Check UnCreate with JSON
+    mvc.perform( post("/restaurants")
+                  .contentType( MediaType.APPLICATION_JSON )
+                  .content( "{\"restaurantName\":\"\", \"restaurantAddress\":\"\"}" ) )
+        .andExpect( status().isBadRequest() ); // ResponseEntity.created( URI ) with 400 StatusCode
+  }
+
+  @Test
+  public void patchUpdateWithValidData() throws Exception {
     // Check Create with JSON
     mvc.perform( patch("/restaurants/1234")
                   .contentType( MediaType.APPLICATION_JSON )
                   .content( "{\"restaurantName\":\"GosuBar\", \"restaurantAddress\":\"Gangnam\"}" ) )
-        .andExpect( status().isOk() );
+        .andExpect( status().isOk() ); // ResponseEntity.created( URI ) with 201 StatusCode
 
     // Check Method
     verify( restaurantService ).updateRestaurant( 1234L, "GosuBar", "Gangnam" );
+  }
+
+  @Test
+  public void patchUpdateWithInvalidData() throws Exception {
+    // Check UnCreate with JSON
+    mvc.perform( patch("/restaurants/1234")
+                  .contentType( MediaType.APPLICATION_JSON )
+                  .content( "{\"restaurantName\":\"\", \"restaurantAddress\":\"\"}" ) )
+        .andExpect( status().isBadRequest() ); // ResponseEntity.created( URI ) with 400 StatusCode
+
   }
 
 }
