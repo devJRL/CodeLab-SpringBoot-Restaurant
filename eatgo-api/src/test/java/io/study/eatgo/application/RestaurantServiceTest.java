@@ -1,9 +1,6 @@
 package io.study.eatgo.application;
 
-import io.study.eatgo.domain.MenuItem;
-import io.study.eatgo.domain.MenuItemRepository;
-import io.study.eatgo.domain.Restaurant;
-import io.study.eatgo.domain.RestaurantRepository;
+import io.study.eatgo.domain.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -74,12 +71,17 @@ public class RestaurantServiceTest {
   }
 
   @Test
-  public void getRestaurantById() {
+  public void getRestaurantById_Existed() {
     Restaurant restaurant = restaurantService.getRestaurantById(1004L);
     assertThat( restaurant.getRestaurantId(), is( 1004L) );
 
     MenuItem menuItem = restaurant.getMenuItemList().get( 0 );
     assertThat( menuItem.getMenuName(), is( "Kimchi" ) );
+  }
+
+  @Test (expected = RestaurantNotFoundException.class )
+  public void getRestaurantById_NotExisted() {
+    Restaurant restaurant = restaurantService.getRestaurantById(404L);
   }
 
   @Test

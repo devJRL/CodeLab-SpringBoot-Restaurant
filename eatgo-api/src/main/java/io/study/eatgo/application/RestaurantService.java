@@ -2,6 +2,7 @@ package io.study.eatgo.application;
 
 import io.study.eatgo.domain.MenuItemRepository;
 import io.study.eatgo.domain.Restaurant;
+import io.study.eatgo.domain.RestaurantNotFoundException;
 import io.study.eatgo.domain.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,9 @@ public class RestaurantService {
   }
 
   public  Restaurant getRestaurantById ( Long restaurantId ) {
-    // TODO : NullPointerException
-    Restaurant restaurant = restaurantRepository.findById( restaurantId ).orElse( null );
+    Restaurant restaurant
+      = restaurantRepository.findById( restaurantId )
+        .orElseThrow( ( ) -> new RestaurantNotFoundException( restaurantId ) );
     restaurant.setMenuItem( menuItemRepository.findAllByRestaurantId( restaurantId ) );
     return restaurant;
   }
