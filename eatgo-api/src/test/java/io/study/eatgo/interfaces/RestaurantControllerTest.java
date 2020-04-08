@@ -3,6 +3,7 @@ package io.study.eatgo.interfaces;
 import io.study.eatgo.application.RestaurantService;
 import io.study.eatgo.domain.MenuItem;
 import io.study.eatgo.domain.Restaurant;
+import io.study.eatgo.domain.RestaurantNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +31,7 @@ public class RestaurantControllerTest {
 
   // MockMvc object : Test DI ( by Spring Framework )
   @Autowired
-  private MockMvc mvc;
+  private MockMvc mMvc;
 
   // Mock object : Application ( on Spring Framework )
   @MockBean
@@ -73,19 +74,19 @@ public class RestaurantControllerTest {
     given( restaurantService.getRestaurantList() ).willReturn( restaurantList );
 
     // Check Data
-    mvc.perform( get( "/restaurants") )
+    mMvc.perform( get( "/restaurants") )
       .andExpect( status().isOk() )
       .andExpect( content().string( containsString( "\"restaurantId\":" + testRestaurantId ) ) )
       .andExpect( content().string( containsString( "\"restaurantName\":\""+ testRestaurantName +"\"" ) ) );
   }
 
   @Test
-  public void getDetail() throws Exception {
+  public void getDetailWithExist() throws Exception {
     // From Mock object
     given( restaurantService.getRestaurantById( testRestaurantId ) ).willReturn( restaurant );
 
     // Check Data
-    mvc.perform( get( "/restaurants/"+testRestaurantId ) )
+    mMvc.perform( get( "/restaurants/"+testRestaurantId ) )
         .andExpect( status().isOk() )
         .andExpect( content().string( containsString( "\"restaurantId\":" + testRestaurantId ) ) )
         .andExpect( content().string( containsString( "\"restaurantName\":\"" + testRestaurantName + "\"" ) ) )
@@ -93,9 +94,20 @@ public class RestaurantControllerTest {
   }
 
   @Test
+  public void getDetailWithNotExist() throws Exception {
+    given( restaurantService.getRestaurantById( 404L ) )
+        .willThrow( new RestaurantNotFoundException(404L) );
+
+    // Check NotFound
+    mMvc.perform( get( "/restaurants/404") )
+        .andExpect( status().isNotFound() ) // 404
+        .andExpect( content().string( "{}" ) );
+  }
+
+  @Test
   public void postCreateWithValidData() throws Exception {
     // Check Create with JSON
-    mvc.perform( post("/restaurants")
+    mMvc.perform( post("/restaurants")
                   .contentType( MediaType.APPLICATION_JSON )
                   .content( "{\"restaurantName\":\"Gosu\", \"restaurantAddress\":\"Busan\"}" ) )
         .andExpect( status().isCreated() ) // ResponseEntity.created( URI ) with 201 StatusCode
@@ -110,7 +122,7 @@ public class RestaurantControllerTest {
   @Test
   public void postCreateWithInvalidData() throws Exception {
     // Check UnCreate with JSON
-    mvc.perform( post("/restaurants")
+    mMvc.perform( post("/restaurants")
                   .contentType( MediaType.APPLICATION_JSON )
                   .content( "{\"restaurantName\":\"\", \"restaurantAddress\":\"\"}" ) )
         .andExpect( status().isBadRequest() ); // ResponseEntity.created( URI ) with 400 StatusCode
@@ -119,7 +131,7 @@ public class RestaurantControllerTest {
   @Test
   public void patchUpdateWithValidData() throws Exception {
     // Check Create with JSON
-    mvc.perform( patch("/restaurants/1234")
+    mMvc.perform( patch("/restaurants/1234")
                   .contentType( MediaType.APPLICATION_JSON )
                   .content( "{\"restaurantName\":\"GosuBar\", \"restaurantAddress\":\"Gangnam\"}" ) )
         .andExpect( status().isOk() ); // ResponseEntity.created( URI ) with 201 StatusCode
@@ -131,7 +143,7 @@ public class RestaurantControllerTest {
   @Test
   public void patchUpdateWithInvalidData() throws Exception {
     // Check UnCreate with JSON
-    mvc.perform( patch("/restaurants/1234")
+    mMvc.perform( patch("/restaurants/1234")
                   .contentType( MediaType.APPLICATION_JSON )
                   .content( "{\"restaurantName\":\"\", \"restaurantAddress\":\"\"}" ) )
         .andExpect( status().isBadRequest() ); // ResponseEntity.created( URI ) with 400 StatusCode
